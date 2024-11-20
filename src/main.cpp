@@ -8,11 +8,11 @@
 
 
 // Definir pin del botón
-const int botonPin = 12;
+const int botonPin = 12;        //Pon tu numero de PIN
 
 // HX711 cableado del sensor
-const int LOADCELL_DOUT_PIN = 4;
-const int LOADCELL_SCK_PIN = 5;
+const int LOADCELL_DOUT_PIN = 4;   //Pon tu numero de PIN
+const int LOADCELL_SCK_PIN = 5;    //Pon tu numero de PIN
 
 // Crear objeto del sensor de distancia
 Adafruit_VL6180X sensor = Adafruit_VL6180X();
@@ -21,22 +21,24 @@ Adafruit_VL6180X sensor = Adafruit_VL6180X();
 HX711 balanza;
 
 // Configura los parámetros de la red Wi-Fi
-const char* ssid = "poxtius";         // Reemplaza con el nombre de tu red Wi-Fi
-const char* password = "Zgrrmrtnz1976"; // Reemplaza con la contraseña de tu red Wi-Fi
+const char* ssid = "WIFI_SSID";         // Reemplaza con el nombre de tu red Wi-Fi
+const char* password = "WIFI_PASSWORD"; // Reemplaza con la contraseña de tu red Wi-Fi
 
 // Google script ID and required credentials
-String GOOGLE_SCRIPT_ID = "AKfycbyI4j8uDDer_WD5in-fPzWIBh0NjGXoSpp9xGlXGE4t1ln6mjd--M-dQJrLrJ47A8TlBQ";
+String GOOGLE_SCRIPT_ID = "GOOGLE_SCRIP_ID de tu Sheet";
+
+//LED integrado en la placa ESP32S que tienes que  verificar si la tuya lo tiene.
+int LED = 2;
 
 // Variables de medición
-int LED = 2;
-int distanciaReferencia = -1;   // Distancia de referencia (inicialmente no definida)
-int distanciaActual = 0;        // Distancia medida actualmente
-int ultimaDistanciaTomada = 0;
+float distanciaReferencia = -1;   // Distancia de referencia (inicialmente no definida)
+float distanciaActual = 0;        // Distancia medida actualmente
+float ultimaDistanciaTomada = 0;
 bool referenciaTomada = false;  // Bandera para saber si ya se tomó la referencia
 bool inicioPrueba = false;
 
-//Hace la media de lecturas del sensor para evitar que nos de falsas lecturas.
-int leerMediaSensor() {
+//Hace la media de lecturas del sensor para evitar que nos de falsas lecturas. En este caso hace 10 medidas y devuelve la media
+float leerMediaSensor() {
     int suma = 0;
     const int numLecturas = 10;
 
@@ -49,7 +51,8 @@ int leerMediaSensor() {
     return suma / numLecturas;  // Calcula la media
 }
 
-//Función para automatizar el led y decidir que significa
+//Función para automatizar el led y decidir que significa. Primer parámetro decide las veces que parpadea y 
+//el segundo cuanto tiempo cada parpadeo
 void encender_led(int veces, int tiempo){
   for(int i = 0; i< veces; i++){
   digitalWrite(LED, HIGH);
@@ -61,6 +64,7 @@ void encender_led(int veces, int tiempo){
 }
 
 //Función para que nos de el peso cuando haya un cambio de distancia.
+//en caso de fallo nos devuelve -1. Se puede hacer un control en caso necesario, por ahora no esta hecho
 long pesar ()
 {
  if (balanza.is_ready()) {
@@ -80,6 +84,7 @@ void mandar_datos(float dist, float peso){
 	String distString = String(dist, 2);  //Convertimos las variable float a String
 	String pesoString = String(peso, 2);	//Convertimos las variable float a String
 	/*Generamos la url que necesitamos para mandar los datos*/
+  //Dist y fuerza cambiaran en función de lo que cada uno haya programado en el googleappscript
 	String urlFinal = "https://script.google.com/macros/s/" + GOOGLE_SCRIPT_ID + "/exec?" + "dist=" + distString + "&fuerza=" + pesoString;
 	/*Imprimimos esa url para ver si es la que necesitamos*/
 	//Serial.println(urlFinal);
@@ -107,9 +112,9 @@ void mandar_datos(float dist, float peso){
 
 //Función de configuración del hardware y software del programa
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(115200);              //Configurar el puerto serie para ver los mensajes de depuración
   pinMode(botonPin, INPUT_PULLUP);  // Configurar el pin del botón como entrada con pull-up interno
-  pinMode(LED, OUTPUT);
+  pinMode(LED, OUTPUT);             //Configurar el PIN del Led para que sea salida
 
   // Iniciar sensor de distancia
   if (!sensor.begin()) {
@@ -118,7 +123,7 @@ void setup() {
   } else {
     Serial.println("Sensor VL6180X iniciado correctamente.");
   }
-  //Iniciar la balanza la ajustas y la taras
+  //Iniciar la balanza la ajusta y la taras
   balanza.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
   delay(250);
   balanza.set_scale(-1050);
@@ -162,7 +167,7 @@ void loop() {
   // Si la referencia ya fue tomada, monitorizar la distancia
   if (referenciaTomada) {
     distanciaActual = leerMediaSensor(); // Leer la distancia actual
-    if (distanciaActual >= ultimaDistanciaTomada + 1) { // Si la distancia ha aumentado en al menos 1 mm
+    if (distanciaActual >= ultimaDistanciaTomada + 0.5) { // Si la distancia ha aumentado en al menos 0.5 mm
       int diferencia = distanciaActual - distanciaReferencia; // Calcular la diferencia
       //Serial.print("Diferencia: ");
       //Serial.print(diferencia);
