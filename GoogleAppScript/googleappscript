@@ -1,0 +1,17 @@
+/* Este script es el que tenemos que poner en marcha en el sheet
+que hayamos elegido para que se suban las lecturas del dinamómetro.
+*/
+
+var sheet_id = "Introducir el número correspondiente a tu GoogleSheet";
+var sheet_name = "nombre de la hoja dentro de la hoja de calculo";
+function doGet(e){
+var ss = SpreadsheetApp.openById(sheet_id);
+var sheet = ss.getSheetByName(sheet_name);
+var dist = Number(e.parameter.dist);
+var indarra = Number(e.parameter.fuerza);
+sheet.appendRow([dist, indarra]);
+}
+
+/* Los parámetros dist y fuerza podeis ponerlos como cada uno desee
+pero hay que tener en cuenta que luego la url que vamos a usar tiene
+que cambiar*/
