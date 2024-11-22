@@ -21,11 +21,11 @@ Adafruit_VL6180X sensor = Adafruit_VL6180X();
 HX711 balanza;
 
 // Configura los parámetros de la red Wi-Fi
-const char* ssid = "poxtius";         // Reemplaza con el nombre de tu red Wi-Fi
-const char* password = "12345678"; // Reemplaza con la contraseña de tu red Wi-Fi
+const char* ssid = "WIFI_SSID";         // Reemplaza con el nombre de tu red Wi-Fi
+const char* password = "WIFI_PASS"; // Reemplaza con la contraseña de tu red Wi-Fi
 
 // Google script ID and required credentials
-String GOOGLE_SCRIPT_ID = "AKfycbyI4j8uDDer_WD5in-fPzWIBh0NjGXoSpp9xGlXGE4t1ln6mjd--M-dQJrLrJ47A8TlBQ";
+String GOOGLE_SCRIPT_ID = "Your GOOGLE_SCRIP_ID";
 
 //LED integrado en la placa ESP32S que tienes que  verificar si la tuya lo tiene.
 int LED = 2;
