@@ -6,7 +6,7 @@ Aquí podeis ver cuales son los sensores elegidos:
 
 <div style="text-align: center;">
     <img src="./media/CelulaGarga20kg.png" style="height: 40%; width:40%;"/>
-    <img src="./media/VL6180X.jpeg" style="height: 40%; width:40%;"/>
+    <img src="./media/VL6180X.jpg" style="height: 40%; width:40%;"/>
 </div>
 
 Como prensa hidraulica hemos utilizado la que se puede ver en la imagen:
