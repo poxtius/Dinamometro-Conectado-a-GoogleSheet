@@ -4,10 +4,10 @@ Hemos diseñado la parte electrónica de un dinamómetro. Este dinamómetro est�
 
 Aquí podeis ver cuales son los sensores elegidos:
 
-<div style="text-align: center;">
-    <img src="./media/CelulaGarga20kg.png" style="height: 40%; width:40%;"/>
-    <img src="./media/VL6180X.jpg" style="height: 40%; width:40%;"/>
-</div>
+<p style="text-align: center;">
+    <img src="./media/CelulaGarga20kg.png" style="height: 40%; width:40%; display: block; margin: auto;"/>
+    <img src="./media/VL6180X.jpeg" style="height: 40%; width:40%; display: block; margin: auto;"/>
+</p>
 
 Como prensa hidraulica hemos utilizado la que se puede ver en la imagen:
 
