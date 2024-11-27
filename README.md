@@ -6,4 +6,4 @@ un sensor de distancia Adafruit VL6180X, y como sensor de fuerza un célula de c
 Aquí podeis ver cuales son los sensores elegidos:
 
 <img src="./media/CelulaGarga20kg.png" style="height: 40%; width:40%;"/>
-<img src="./media/VL6180X.png" style="height: 40%; width:40%;"/>
+<img src="./media/VL6180X.jpg" style="height: 40%; width:40%;"/>
